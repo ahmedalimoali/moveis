@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movies Gallery</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #0f0f0f;
+            color: white;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #1a1a1a;
+            padding: 20px;
+            text-align: center;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.5rem;
+            animation: fadeIn 2s;
+        }
+
+        .search-bar {
+            margin: 20px auto;
+            text-align: center;
+            animation: slideDown 1s;
+        }
+
+        .search-bar input {
+            width: 70%;
+            max-width: 400px;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #333;
+        }
+
+        .movies-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .movie-card {
+            background-color: #1a1a1a;
+            border-radius: 10px;
+            width: 200px;
+            padding: 10px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s, box-shadow 0.3s;
+            animation: zoomIn 1s;
+        }
+
+        .movie-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .movie-card img {
+            width: 100%;
+            border-radius: 10px;
+        }
+
+        .movie-card h3 {
+            font-size: 1.2rem;
+            margin: 10px 0;
+        }
+
+        .movie-card p {
+            font-size: 0.9rem;
+            color: #ccc;
+        }
+
+        .ads-container {
+            margin: 20px auto;
+            text-align: center;
+            animation: fadeIn 2s;
+        }
+
+        .ad-banner {
+            background-color: #333;
+            color: #fff;
+            padding: 10px;
+            margin: 10px auto;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 600px;
+            text-align: center;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideDown {
+            from { transform: translateY(-20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        @keyframes zoomIn {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Movies Gallery</h1>
+    </header>
+
+    <div class="search-bar">
+        <input type="text" id="searchInput" placeholder="Search movies...">
+    </div>
+
+    <div class="ads-container">
+        <div class="ad-banner" id="adBanner1">  sooooooooon!</div>
+        <div class="ad-banner" id="adBanner2">  Check out the latest movies!</div>
+    </div>
+
+    <div class="movies-container" id="moviesContainer">
+        <!-- Movies will be displayed here -->
+    </div>
+
+    <script>
+        const movies = [
+            { title: "Avatar", poster: "https://via.placeholder.com/200x300", description: "An epic journey on Pandora." },
+            { title: "Avengers", poster: "https://via.placeholder.com/200x300", description: "Earth's mightiest heroes unite." },
+            { title: "The Lion King", poster: "https://via.placeholder.com/200x300", description: "A young lion's journey to the throne." },
+            { title: "Frozen", poster: "https://via.placeholder.com/200x300", description: "An icy tale of two sisters." },
+            { title: "Toy Story", poster: "https://via.placeholder.com/200x300", description: "The toys come alive in this classic." }
+        ];
+
+        const moviesContainer = document.getElementById("moviesContainer");
+        const searchInput = document.getElementById("searchInput");
+
+        function displayMovies(filteredMovies) {
+            moviesContainer.innerHTML = "";
+            filteredMovies.forEach(movie => {
+                const movieCard = document.createElement("div");
+                movieCard.className = "movie-card";
+                movieCard.innerHTML = `
+                    <img src="${movie.poster}" alt="${movie.title}">
+                    <h3>${movie.title}</h3>
+                    <p>${movie.description}</p>
+                `;
+                moviesContainer.appendChild(movieCard);
+            });
+        }
+
+        searchInput.addEventListener("input", () => {
+            const query = searchInput.value.toLowerCase();
+            const filteredMovies = movies.filter(movie => movie.title.toLowerCase().includes(query));
+            displayMovies(filteredMovies);
+        });
+
+        // Function to rotate ads dynamically
+        const ads = ["sooooooooon!", " Check out the latest movies", "all new movies are here"];
+        function rotateAds() {
+            const adBanner1 = document.getElementById("adBanner1");
+            const adBanner2 = document.getElementById("adBanner2");
+
+            let index1 = 0;
+            let index2 = 1;
+
+            setInterval(() => {
+                adBanner1.textContent = ads[index1];
+                adBanner2.textContent = ads[index2];
+                index1 = (index1 + 1) % ads.length;
+                index2 = (index2 + 1) % ads.length;
+            }, 5000);
+        }
+
+        rotateAds();
+
+        // AI-based recommendation simulation
+        function recommendMovies() {
+            const recommended = movies.slice(0, 3); // Simulating AI recommendations
+            alert("Recommended Movies: " + recommended.map(movie => movie.title).join(", "));
+        }
+
+        // Display a recommendation alert after 10 seconds
+        setTimeout(recommendMovies, 10000);
+
+        displayMovies(movies);
+    </script>
+</body>
+</html>
